@@ -38,17 +38,17 @@ function fpo_enqueue_scripts() {
     wp_enqueue_script(
         'fpo-custom-drag-drop', 
         plugin_dir_url( __FILE__ ) . 'js/custom-drag-drop.js', 
-        array( 'jquery', 'jquery-ui-sortable' ), 
+        [ 'jquery', 'jquery-ui-sortable' ], 
         null, 
         true
     );
     wp_localize_script(
         'fpo-custom-drag-drop', 
         'fpo_ajax_object', 
-        array(
+        [
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'fpo_save_order_nonce' )
-        )
+        ]
     );
 }
 add_action( 'wp_enqueue_scripts', 'fpo_enqueue_scripts' );
@@ -60,12 +60,12 @@ add_action( 'wp_enqueue_scripts', 'fpo_enqueue_scripts' );
  */
 function fpo_display_posts( $post_types ) {
     foreach ( $post_types as $post_type )  {
-        $args = array(
+        $args = [
             'post_type'      => $post_type,
             'posts_per_page' => -1,
             'orderby'        => 'menu_order',
             'order'          => 'ASC',
-        );
+        ];
         $query = new WP_Query( $args );
 
         if ( $query->have_posts() ) {
@@ -89,9 +89,9 @@ function fpo_display_posts( $post_types ) {
  */
 function fpo_shortcode( $atts ) {
     $atts = shortcode_atts(
-        array(
+        [
             'type' => 'post',
-        ),
+        ],
         $atts,
         'sortable_posts'
     );
@@ -114,10 +114,10 @@ function fpo_save_post_order() {
         $order = explode( ',', $_POST['order'] );
         foreach ( $order as $position => $post_id ) {
             $post_id = ( int ) str_replace( 'post-', '', $post_id );
-            wp_update_post( array(
+            wp_update_post( [
                 'ID'         => $post_id,
                 'menu_order' => $position,
-            ) );
+            ] );
         }
         echo 'success';
     } else {
