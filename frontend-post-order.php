@@ -10,14 +10,15 @@
   *
   * Plugin Name: Frontend Post Order
   * Description: A plugin to reorder posts via drag and drop on the frontend.
-  * Plugin URI:  https://www.robertdevore.com/
-  * Version:     1.0.0
+  * Plugin URI:  https://github.com/robertdevore/frontend-post-order/
+  * Version:     1.0.1
   * Author:      Robert DeVore
   * Author URI:  https://robertdevore.com/
   * License:     GPL-2.0+
   * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
   * Text Domain: frontend-post-order
   * Domain Path: /languages
+  * Update URI:  https://github.com/robertdevore/frontend-post-order/
   */
  
 // If this file is called directly, abort.
@@ -29,6 +30,18 @@ if ( ! defined( 'WPINC' ) ) {
  * Current plugin version.
 */
 define( 'FRONTEND_POST_ORDER_VERSION', '1.0.0' );
+
+require 'plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/robertdevore/frontend-post-order/',
+	__FILE__,
+	'frontend-post-order'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch( 'main' );
 
 /**
  * Enqueue necessary scripts and styles.
