@@ -28,8 +28,8 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Current plugin version.
-*/
-define( 'FRONTEND_POST_ORDER_VERSION', '1.0.0' );
+ */
+define( 'FRONTEND_POST_ORDER_VERSION', '1.0.1' );
 
 require 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
@@ -45,19 +45,22 @@ $myUpdateChecker->setBranch( 'main' );
 
 /**
  * Enqueue necessary scripts and styles.
+ * 
+ * @since  1.0.0
+ * @return void
  */
 function fpo_enqueue_scripts() {
     wp_enqueue_script( 'jquery-ui-sortable' );
     wp_enqueue_script(
-        'fpo-custom-drag-drop', 
-        plugin_dir_url( __FILE__ ) . 'js/custom-drag-drop.js', 
-        [ 'jquery', 'jquery-ui-sortable' ], 
-        null, 
+        'fpo-custom-drag-drop',
+        plugin_dir_url( __FILE__ ) . 'js/custom-drag-drop.js',
+        [ 'jquery', 'jquery-ui-sortable' ],
+        FRONTEND_POST_ORDER_VERSION,
         true
     );
     wp_localize_script(
-        'fpo-custom-drag-drop', 
-        'fpo_ajax_object', 
+        'fpo-custom-drag-drop',
+        'fpo_ajax_object',
         [
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'nonce'    => wp_create_nonce( 'fpo_save_order_nonce' )
@@ -70,6 +73,9 @@ add_action( 'wp_enqueue_scripts', 'fpo_enqueue_scripts' );
  * Display posts in a sortable list for the specified post types.
  *
  * @param array $post_types Array of post types to display.
+ * 
+ * @since  1.0.0
+ * @return void
  */
 function fpo_display_posts( $post_types ) {
     foreach ( $post_types as $post_type )  {
@@ -98,6 +104,8 @@ function fpo_display_posts( $post_types ) {
  * Shortcode to display sortable posts.
  *
  * @param array $atts Shortcode attributes.
+ * 
+ * @since  1.0.0
  * @return string
  */
 function fpo_shortcode( $atts ) {
@@ -119,6 +127,9 @@ add_shortcode( 'frontend_post_order', 'fpo_shortcode' );
 
 /**
  * Save the order of posts in the backend.
+ * 
+ * @since  1.0.0
+ * @return void
  */
 function fpo_save_post_order() {
     check_ajax_referer( 'fpo_save_order_nonce', 'nonce' );
