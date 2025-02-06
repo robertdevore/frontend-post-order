@@ -53,6 +53,21 @@ use RobertDevore\WPComCheck\WPComPluginHandler;
 new WPComPluginHandler( plugin_basename( __FILE__ ), 'https://robertdevore.com/why-this-plugin-doesnt-support-wordpress-com-hosting/' );
 
 /**
+ * Load plugin text domain for translations
+ * 
+ * @since  1.0.2
+ * @return void
+ */
+function fpo_load_textdomain() {
+    load_plugin_textdomain( 
+        'frontend-post-order',
+        false,
+        dirname( plugin_basename( __FILE__ ) ) . '/languages/'
+    );
+}
+add_action( 'plugins_loaded', 'fpo_load_textdomain' );
+
+/**
  * Enqueue necessary scripts and styles.
  * 
  * @since  1.0.0
